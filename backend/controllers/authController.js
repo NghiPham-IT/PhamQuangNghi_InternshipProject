@@ -7,16 +7,16 @@ exports.register = async (req, res) => {
   try {
     const { fullName, email, password, phone } = req.body;
 
-    // 1. Kiểm tra email tồn tại chưa
+    // Kiểm tra email
     const userExists = await User.findOne({ email });
     if (userExists)
       return res.status(400).json({ message: "Email đã được sử dụng!" });
 
-    // 2. Mã hóa mật khẩu
+    // Mã hóa mật khẩu
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // 3. Tạo user mới
+    // Tạo user mới
     const newUser = new User({
       fullName,
       email,
@@ -36,16 +36,16 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // 1. Tìm user
+    // Tìm user
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: "Email không tồn tại!" });
 
-    // 2. Kiểm tra mật khẩu
+    // Kiểm tra mật khẩu
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
       return res.status(400).json({ message: "Mật khẩu không đúng!" });
 
-    // 3. Tạo Token JWT
+    // Tạo Token JWT
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
@@ -63,7 +63,7 @@ exports.login = async (req, res) => {
 // Lấy thông tin người dùng hiện tại
 exports.getMe = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password"); // Lấy hết trừ mật khẩu
+    const user = await User.findById(req.user.id).select("-password");
     res.json(user);
   } catch (err) {
     res.status(500).json({ message: "Lỗi lấy thông tin người dùng" });

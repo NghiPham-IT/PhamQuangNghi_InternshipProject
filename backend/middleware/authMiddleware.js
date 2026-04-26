@@ -1,39 +1,40 @@
 const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 
-const protect = (req, res, next) => {
+const protect = async (req, res, next) => {
   let token;
 
-  // Kiểm tra xem Token có nằm trong Header không
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
   ) {
     try {
-      // Lấy token từ chuỗi "Bearer <token>"
       token = req.headers.authorization.split(" ")[1];
-
-      // Giải mã token
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = await User.findById(decoded.id).select("-password");
 
-      // Lưu thông tin user vào request để dùng ở các hàm sau
-      req.user = decoded;
+      if (!req.user) {
+        return res
+          .status(401)
+          .json({ message: "Người dùng không còn tồn tại trên hệ thống!" });
+      }
 
-      next(); // Cho phép đi tiếp
+      next();
     } catch (error) {
-      res.status(401).json({ message: "Token không hợp lệ!" });
+      console.error("Lỗi xác thực Token:", error);
+      res.status(401).json({ message: "Token không hợp lệ hoặc đã hết hạn!" });
     }
   }
 
   if (!token) {
-    res
+    return res
       .status(401)
       .json({ message: "Bạn chưa đăng nhập, không có quyền truy cập!" });
   }
 };
 
-// Middleware kiểm tra quyền Admin
 const admin = (req, res, next) => {
-  if (req.user && req.user.role === "admin") {
+  if (req.user && (req.user.role === "admin" || req.user.isAdmin === true)) {
     next();
   } else {
     res

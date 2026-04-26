@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api/axios";
 import { Link } from "react-router-dom";
 
 function Home() {
   const [services, setServices] = useState([]);
-  const [loading, setLoading] = useState(true); // Thêm trạng thái loading
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Giả lập delay một chút để Nghi thấy hiệu ứng skeleton (tùy chọn)
-    axios
-      .get("http://localhost:5000/api/services")
+    api
+      .get("/services")
       .then((res) => {
         setServices(res.data);
         setLoading(false);
@@ -29,14 +28,13 @@ function Home() {
         </h1>
         <div className="h-1 w-24 bg-dt-green mx-auto mb-4"></div>
         <p className="text-gray-600 font-medium italic">
-          "Hành trình về xứ sở Sen Hồng - Dự án của Phạm Quang Nghi"
+          "Hành trình về xứ sở Sen Hồng"
         </p>
       </div>
 
       {/* Grid danh sách vé */}
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {loading ? (
-          // Hiệu ứng Skeleton khi đang tải dữ liệu (Cực kỳ chuyên nghiệp)
           [1, 2, 3].map((item) => (
             <div
               key={item}
@@ -93,7 +91,6 @@ function Home() {
             </div>
           ))
         ) : (
-          // Trường hợp không có dữ liệu (Empty State)
           <div className="col-span-full text-center py-20">
             <p className="text-gray-500 text-xl">
               Hiện chưa có vé nào được mở bán. 🌸

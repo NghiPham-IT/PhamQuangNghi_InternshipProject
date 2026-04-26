@@ -16,7 +16,7 @@ app.use(
     credentials: true,
   }),
 );
-app.use(express.json()); // Để server hiểu được dữ liệu JSON gửi lên
+app.use(express.json());
 app.use("/api/services", serviceRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/orders", orderRoutes);

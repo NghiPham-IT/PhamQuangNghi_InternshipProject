@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import ServiceDetail from "./pages/ServiceDetail";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import History from "./pages/History";
 function App() {
   return (
     <>
@@ -13,6 +14,7 @@ function App() {
         <Route path="/service/:id" element={<ServiceDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/history" element={<History />} />
       </Routes>
     </>
   );

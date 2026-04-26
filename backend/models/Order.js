@@ -4,8 +4,7 @@ const orderSchema = new mongoose.Schema(
   {
     customerName: { type: String, required: true },
     phoneNumber: { type: String, required: true },
-
-    // THÊM TRƯỜNG NÀY VÀO ĐÂY:
+    //
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

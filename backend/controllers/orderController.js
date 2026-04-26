@@ -3,65 +3,53 @@ const Service = require("../models/Service");
 
 exports.createOrder = async (req, res) => {
   try {
-    const { items, customerName, phoneNumber } = req.body;
-    let total = 0;
-    const locations = new Set(); // Dùng Set để đếm các địa điểm khác nhau
+    console.log("DỮ LIỆU USER TỪ TOKEN:", req.user);
 
-    // Duyệt qua danh sách món hàng khách nhặt lẻ
-    for (let item of items) {
-      const service = await Service.findById(item.serviceId);
-      if (service) {
-        total += service.price * item.quantity;
-        locations.add(service.location); // Thêm địa điểm vào danh sách (Tràm Chim, Xẻo Quýt...)
-      }
+    const { serviceId, quantity } = req.body;
+    if (!req.user) {
+      return res.status(401).json({
+        message: "Không tìm thấy thông tin người dùng, thử đăng nhập lại nhé!",
+      });
     }
 
-    // Logic giảm giá Combo: Nếu đi từ 2 địa điểm trở lên thì giảm 10%
-    let discount = 0;
-    if (locations.size >= 2) {
-      discount = total * 0.1;
-      total = total - discount;
-    }
-
-    // Tạo mã QR giả lập (sau này sẽ dùng chuỗi này để vẽ hình QR)
-    const qrCodeString = `DTGO-${Date.now()}-${req.user.id}`;
+    const service = await Service.findById(serviceId);
+    if (!service)
+      return res.status(404).json({ message: "Dịch vụ không tồn tại" });
 
     const newOrder = new Order({
-      customerName,
-      phoneNumber,
-      items,
-      totalPrice: total,
-      discountApplied: discount,
-      qrCode: qrCodeString,
-      user: req.user.id, // Lấy ID người dùng từ Token (nhờ Middleware protect)
+      customerName: req.user.username || req.user.email || "Khách hàng",
+      phoneNumber: req.user.phoneNumber || "0963258147",
+      user: req.user._id,
+      items: [
+        {
+          serviceId: service._id,
+          quantity: quantity || 1,
+          priceAtBooking: service.price,
+        },
+      ],
+      totalPrice: service.price * (quantity || 1),
+      qrCode: `DTGO-${Date.now()}-${req.user._id}`,
     });
 
     await newOrder.save();
     res.status(201).json({ message: "Đặt vé thành công!", order: newOrder });
   } catch (err) {
-    res.status(500).json({ message: "Lỗi khi đặt vé", error: err });
+    console.error("LỖI CHI TIẾT TẠI CONTROLLER:", err);
+    res.status(500).json({ message: "Lỗi lưu Database", error: err.message });
   }
 };
-// Lấy danh sách đơn hàng của người đang đăng nhập
+
 exports.getMyOrders = async (req, res) => {
   try {
-    // Phải tìm theo field 'user' khớp với 'req.user.id' từ Token
-    const orders = await Order.find({ user: req.user.id }).populate(
-      "items.serviceId",
-    );
+    console.log("ID người dùng đang truy vấn:", req.user._id);
+    const userId = req.user._id || req.user.id;
+    const orders = await Order.find({ user: userId })
+      .populate("items.serviceId")
+      .sort({ createdAt: -1 });
+
+    console.log("Số lượng đơn hàng tìm thấy:", orders.length);
     res.json(orders);
   } catch (err) {
-    res.status(500).json({ message: "Lỗi lấy lịch sử đơn hàng", error: err });
-  }
-};
-// Chỉ Admin mới xem được tất cả
-exports.getAllOrders = async (req, res) => {
-  try {
-    const orders = await Order.find()
-      .populate("user", "fullName email")
-      .populate("items.serviceId");
-    res.json(orders);
-  } catch (err) {
-    res.status(500).json({ message: "Lỗi lấy danh sách đơn hàng", error: err });
+    res.status(500).json({ message: "Lỗi lấy lịch sử", error: err.message });
   }
 };

@@ -20,10 +20,18 @@ function Navbar() {
       <div className="flex items-center gap-6">
         {user ? (
           <>
+            <Link
+              to="/history"
+              className="text-gray-600 font-bold hover:text-dt-pink transition-colors"
+            >
+              Lịch sử vé
+            </Link>
+
             <span className="text-gray-600 font-medium">
               Chào,{" "}
               <span className="text-dt-green font-bold">{user.username}</span>
             </span>
+
             <button
               onClick={handleLogout}
               className="bg-gray-100 text-gray-600 px-4 py-2 rounded-xl font-bold hover:bg-red-50 hover:text-red-600 transition-all"
