@@ -5,6 +5,8 @@ import ServiceDetail from "./pages/ServiceDetail";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import History from "./pages/History";
+import Cart from "./pages/Cart";
+import AdminOrders from "./pages/AdminOrders";
 function App() {
   return (
     <>
@@ -15,6 +17,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/history" element={<History />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/admin/orders" element={<AdminOrders />} />
       </Routes>
     </>
   );

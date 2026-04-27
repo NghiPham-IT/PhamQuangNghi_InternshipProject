@@ -6,6 +6,6 @@ const { protect, admin } = require("../middleware/authMiddleware");
 router.post("/", protect, orderController.createOrder);
 router.get("/myorders", protect, orderController.getMyOrders);
 // Admin lấy tất cả đơn hàng
-// router.get("/all", protect, admin, orderController.getAllOrders);
-
+router.get("/all", protect, admin, orderController.getAllOrders);
+router.put("/:id/status", protect, admin, orderController.updateOrderStatus);
 module.exports = router;

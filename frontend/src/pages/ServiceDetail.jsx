@@ -24,6 +24,27 @@ function ServiceDetail() {
     }
   }, [id]);
 
+  const addToCart = () => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    // Kiểm tra xem vé có trong giỏ chưa
+    const existItem = cart.find((item) => item._id === service._id);
+
+    if (existItem) {
+      existItem.quantity += 1;
+    } else {
+      cart.push({
+        _id: service._id,
+        name: service.name,
+        price: service.price,
+        location: service.location,
+        quantity: 1,
+      });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert("Đã thêm vào giỏ hàng! Tiếp tục chọn thêm vé 🌸");
+  };
+
   const handleBooking = async () => {
     const token = localStorage.getItem("token");
 
@@ -119,21 +140,35 @@ function ServiceDetail() {
           </p>
         </div>
 
-        <button
-          onClick={handleBooking}
-          disabled={loading}
-          className={`w-full py-5 rounded-3xl font-black text-xl shadow-2xl transition-all active:scale-95 flex justify-center items-center gap-3
-            ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-dt-pink text-white hover:bg-pink-700 hover:shadow-pink-200"}`}
-        >
-          {loading ? (
-            <>
-              <div className="w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
-              ĐANG XỬ LÝ...
-            </>
-          ) : (
-            "XÁC NHẬN ĐẶT VÉ"
-          )}
-        </button>
+        <div className="flex flex-col md:flex-row gap-4 mt-6">
+          <button
+            onClick={addToCart}
+            disabled={loading}
+            className="flex-1 py-5 rounded-3xl font-black text-xl bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all active:scale-95 shadow-md flex justify-center items-center gap-2"
+          >
+            THÊM VÀO GIỎ 🧺
+          </button>
+
+          <button
+            onClick={handleBooking}
+            disabled={loading}
+            className={`flex-[2] py-5 rounded-3xl font-black text-xl shadow-2xl transition-all active:scale-95 flex justify-center items-center gap-3
+              ${
+                loading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-dt-pink text-white hover:bg-pink-700 shadow-pink-200"
+              }`}
+          >
+            {loading ? (
+              <>
+                <div className="w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                ĐANG XỬ LÝ...
+              </>
+            ) : (
+              "ĐẶT VÉ NGAY"
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );

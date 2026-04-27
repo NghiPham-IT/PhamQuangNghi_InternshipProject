@@ -34,13 +34,14 @@ const protect = async (req, res, next) => {
 };
 
 const admin = (req, res, next) => {
-  if (req.user && (req.user.role === "admin" || req.user.isAdmin === true)) {
+  console.log("Quyền của User đang vào:", req.user?.role); // Dòng này để debug
+  if (req.user && req.user.role === "admin") {
     next();
   } else {
-    res
-      .status(403)
-      .json({ message: "Chỉ Admin mới có quyền thực hiện hành động này!" });
+    res.status(403).json({
+      message: "Lỗi quyền Admin",
+      roleHienTai: req.user?.role,
+    });
   }
 };
-
 module.exports = { protect, admin };
