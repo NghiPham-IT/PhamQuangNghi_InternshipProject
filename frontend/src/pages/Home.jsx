@@ -5,7 +5,10 @@ import { Link } from "react-router-dom";
 function Home() {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [keyword, setKeyword] = useState("");
+  const [location, setLocation] = useState("Tất cả");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [sort, setSort] = useState("");
   useEffect(() => {
     api
       .get("/services")
@@ -19,10 +22,21 @@ function Home() {
       });
   }, []);
 
+  const handleSearch = async () => {
+    try {
+      const res = await api.get(
+        `/services?keyword=${keyword}&location=${location}&maxPrice=${maxPrice}&sort=${sort}`,
+      );
+      setServices(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-pink-50/30 py-12 px-4">
       {/* Header */}
-      <div className="max-w-4xl mx-auto text-center mb-16">
+      <div className="max-w-4xl mx-auto text-center mb-12">
         <h1 className="text-5xl font-black text-dt-pink tracking-tight mb-4 uppercase">
           Dong Thap Go <span className="animate-pulse">🌸</span>
         </h1>
@@ -32,7 +46,78 @@ function Home() {
         </p>
       </div>
 
-      {/* Grid danh sách vé */}
+      {/* search */}
+      <div className="max-w-6xl mx-auto mb-16 space-y-4">
+        <div className="bg-white p-6 rounded-[2.5rem] shadow-2xl shadow-pink-100/50 border border-pink-100">
+          <div className="flex flex-wrap md:flex-nowrap gap-4 items-center mb-4">
+            <div className="flex-1 flex items-center bg-pink-50/50 px-6 py-4 rounded-[2rem] gap-3 border border-transparent focus-within:border-dt-pink/30 transition-all">
+              <span className="text-xl">🔍</span>
+              <input
+                type="text"
+                placeholder="Bạn muốn khám phá tham quan ở đâu nào?..."
+                className="bg-transparent border-none outline-none w-full font-medium text-gray-700 placeholder:text-gray-400"
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+                onKeyPress={(e) => e.key === "Enter" && handleSearch()}
+              />
+            </div>
+
+            <div className="flex items-center bg-pink-50/50 px-6 py-4 rounded-[2rem] gap-3 min-w-[220px] border border-transparent">
+              <span className="text-xl">📍</span>
+              <select
+                className="bg-transparent border-none outline-none w-full font-bold text-gray-600 cursor-pointer appearance-none"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+              >
+                <option value="Tất cả">Toàn Đồng Tháp</option>
+                <option value="Cao Lãnh">TP. Cao Lãnh</option>
+                <option value="Sa Đéc">TP. Sa Đéc</option>
+                <option value="Tháp Mười">Huyện Tháp Mười</option>
+                <option value="Hồng Ngự">TP. Hồng Ngự</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-pink-50">
+            <div className="flex-1 min-w-[200px] flex items-center bg-pink-50/30 px-6 py-3 rounded-[1.5rem] gap-3">
+              <span className="text-gray-400 font-bold text-sm uppercase">
+                Giá tối đa:
+              </span>
+              <input
+                type="number"
+                placeholder="VD: 100000"
+                className="bg-transparent border-none outline-none w-full font-black text-dt-pink placeholder:text-gray-300"
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(e.target.value)}
+              />
+              <span className="text-dt-pink font-bold">đ</span>
+            </div>
+
+            <div className="flex items-center bg-pink-50/30 px-6 py-3 rounded-[1.5rem] gap-3 min-w-[220px]">
+              <span className="text-gray-400 font-bold text-sm uppercase">
+                Sắp xếp:
+              </span>
+              <select
+                className="bg-transparent border-none outline-none w-full font-bold text-gray-600 cursor-pointer"
+                value={sort}
+                onChange={(e) => setSort(e.target.value)}
+              >
+                <option value="">Mặc định</option>
+                <option value="priceAsc">Giá thấp đến cao</option>
+                <option value="priceDesc">Giá cao xuống thấp</option>
+              </select>
+            </div>
+
+            <button
+              onClick={handleSearch}
+              className="bg-dt-green text-white px-12 py-4 rounded-[2rem] font-black hover:bg-green-700 transition-all shadow-lg shadow-green-200 active:scale-95 w-full md:w-auto ml-auto"
+            >
+              ÁP DỤNG 🚀
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {loading ? (
           [1, 2, 3].map((item) => (
@@ -52,7 +137,7 @@ function Home() {
               key={service._id}
               className="bg-white rounded-3xl shadow-2xl overflow-hidden hover:translate-y-[-8px] transition-all duration-300 border border-pink-100 flex flex-col"
             >
-              <div className="h-48 bg-dt-green/20 flex items-center justify-center">
+              <div className="h-48 bg-dt-green/10 flex items-center justify-center">
                 <span className="text-5xl">🛶</span>
               </div>
 
@@ -91,10 +176,23 @@ function Home() {
             </div>
           ))
         ) : (
-          <div className="col-span-full text-center py-20">
-            <p className="text-gray-500 text-xl">
-              Hiện chưa có vé nào được mở bán. 🌸
+          <div className="col-span-full text-center py-20 bg-white rounded-[3rem] shadow-inner">
+            <span className="text-6xl mb-4 block">🏜️</span>
+            <p className="text-gray-500 text-xl font-medium">
+              Bạn ơi, không tìm thấy địa điểm nào khớp với lựa chọn này rồi! 🌸
             </p>
+            <button
+              onClick={() => {
+                setKeyword("");
+                setLocation("Tất cả");
+                setMaxPrice("");
+                setSort("");
+                handleSearch();
+              }}
+              className="mt-4 text-dt-pink font-bold underline cursor-pointer hover:text-pink-700"
+            >
+              Xem lại tất cả vé
+            </button>
           </div>
         )}
       </div>
