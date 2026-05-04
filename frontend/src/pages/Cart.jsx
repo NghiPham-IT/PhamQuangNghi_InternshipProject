@@ -11,11 +11,10 @@ function Cart() {
     setCartItems(savedCart);
   }, []);
 
-  // Hàm cập nhật số lượng (Tăng/Giảm)
+  // (Tăng/Giảm)
   const updateQuantity = (id, delta) => {
     const updatedCart = cartItems.map((item) => {
       if (item._id === id) {
-        // Đảm bảo số lượng tối thiểu là 1
         const newQty = Math.max(1, item.quantity + delta);
         return { ...item, quantity: newQty };
       }
@@ -23,7 +22,6 @@ function Cart() {
     });
     setCartItems(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
-    // Kích hoạt sự kiện để Navbar cập nhật con số theo
     window.dispatchEvent(new Event("storage"));
   };
 
@@ -34,7 +32,7 @@ function Cart() {
     window.dispatchEvent(new Event("storage"));
   };
 
-  // Logic tính tiền & giảm giá Combo
+  // tính tiền Combo
   const calculateTotal = () => {
     const subtotal = cartItems.reduce(
       (acc, item) => acc + item.price * item.quantity,
@@ -52,21 +50,18 @@ function Cart() {
     if (!token) return navigate("/login");
 
     try {
-      // CHÚ Ý: Biến đổi cấu trúc mảng để khớp với Backend Nghi vừa gửi
       const itemsToOrder = cartItems.map((item) => ({
-        serviceId: item._id, // CHÍNH XÁC PHẢI LÀ serviceId (chữ I viết hoa)
+        serviceId: item._id,
         quantity: item.quantity,
       }));
 
-      // Gửi đúng object { items: [...] }
       await api.post("/orders", { items: itemsToOrder });
 
       alert("Đặt vé combo thành công! 🌸");
-      localStorage.removeItem("cart"); // Dọn dẹp giỏ hàng
-      window.dispatchEvent(new Event("storage")); // Cập nhật Navbar
+      localStorage.removeItem("cart");
+      window.dispatchEvent(new Event("storage"));
       navigate("/history");
     } catch (err) {
-      // Nếu vẫn lỗi, Log này sẽ chỉ thẳng ID nào đang bị sai
       console.error("Chi tiết lỗi từ Backend:", err.response?.data);
       alert(err.response?.data?.message || "Lỗi khi đặt hàng");
     }
@@ -91,7 +86,7 @@ function Cart() {
   return (
     <div className="max-w-4xl mx-auto p-6 min-h-screen pb-20">
       <h2 className="text-3xl font-black mb-8 text-dt-green uppercase tracking-tighter">
-        Giỏ hàng của Nghi 🛶
+        Giỏ hàng của bạn
       </h2>
 
       <div className="bg-white rounded-3xl shadow-2xl p-8 border border-gray-50">

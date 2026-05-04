@@ -7,6 +7,8 @@ import Register from "./pages/Register";
 import History from "./pages/History";
 import Cart from "./pages/Cart";
 import AdminOrders from "./pages/AdminOrders";
+import ProtectedRoute from "./components/ProtectedRoute";
+import AdminReviews from "./pages/AdminReviews";
 function App() {
   return (
     <>
@@ -19,6 +21,14 @@ function App() {
         <Route path="/history" element={<History />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/admin/orders" element={<AdminOrders />} />
+        <Route
+          path="/admin/reviews"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <AdminReviews />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </>
   );

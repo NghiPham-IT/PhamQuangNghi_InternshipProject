@@ -1,0 +1,33 @@
+[{
+  "_id": {
+    "$oid": "69e488f8fadb2b1b6ff89405"
+  },
+  "fullName": "Pham Quang Nghi",
+  "email": "nghi@gmail.com",
+  "password": "$2b$10$kzQHeJxW2ookG9zG7vvp4ON.NU01MMBd.32o415Jbhe3rYTyhw0Pe",
+  "role": "admin",
+  "createdAt": {
+    "$date": "2026-04-19T07:49:12.926Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-19T07:49:12.926Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69e89d5e7af7c99d07a9776f"
+  },
+  "fullName": "Nguyễn Đạt",
+  "email": "datnguyen@gmail.com",
+  "password": "$2b$10$p6gsH/XkTfgtW1SartDJjOYm.Nqb2PCAf0xqLhBPa2hco3DpUkY1a",
+  "phone": "0963258147",
+  "role": "customer",
+  "createdAt": {
+    "$date": "2026-04-22T10:05:18.776Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-22T10:05:18.776Z"
+  },
+  "__v": 0
+}]

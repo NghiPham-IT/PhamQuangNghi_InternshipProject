@@ -1,0 +1,203 @@
+[{
+  "_id": {
+    "$oid": "69e8a114e733b6e4bf163a6f"
+  },
+  "customerName": "Nguyễn Đạt",
+  "phoneNumber": "0901234567",
+  "user": {
+    "$oid": "69e89d5e7af7c99d07a9776f"
+  },
+  "items": [
+    {
+      "serviceId": {
+        "$oid": "69e3645307795c01e3477214"
+      },
+      "quantity": 2,
+      "_id": {
+        "$oid": "69e8a114e733b6e4bf163a70"
+      }
+    },
+    {
+      "serviceId": {
+        "$oid": "69e3644407795c01e3477212"
+      },
+      "quantity": 1,
+      "_id": {
+        "$oid": "69e8a114e733b6e4bf163a71"
+      }
+    }
+  ],
+  "totalPrice": 81000,
+  "discountApplied": 9000,
+  "status": "Completed",
+  "qrCode": "DTGO-1776853268663-69e89d5e7af7c99d07a9776f",
+  "createdAt": {
+    "$date": "2026-04-22T10:21:08.665Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-27T11:20:13.882Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69ede6830a7d76c7cac57d0b"
+  },
+  "customerName": "nghi@gmail.com",
+  "phoneNumber": "0963258147",
+  "user": {
+    "$oid": "69e488f8fadb2b1b6ff89405"
+  },
+  "items": [
+    {
+      "serviceId": {
+        "$oid": "69e35fc907795c01e3477210"
+      },
+      "quantity": 1,
+      "priceAtBooking": 150000,
+      "_id": {
+        "$oid": "69ede6830a7d76c7cac57d0c"
+      }
+    }
+  ],
+  "totalPrice": 150000,
+  "discountApplied": 0,
+  "status": "Pending",
+  "qrCode": "DTGO-1777198723791-69e488f8fadb2b1b6ff89405",
+  "createdAt": {
+    "$date": "2026-04-26T10:18:43.803Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-26T10:18:43.803Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69ede98e0a7d76c7cac57d11"
+  },
+  "customerName": "nghi@gmail.com",
+  "phoneNumber": "0963258147",
+  "user": {
+    "$oid": "69e488f8fadb2b1b6ff89405"
+  },
+  "items": [
+    {
+      "serviceId": {
+        "$oid": "69e3644407795c01e3477212"
+      },
+      "quantity": 1,
+      "priceAtBooking": 50000,
+      "_id": {
+        "$oid": "69ede98e0a7d76c7cac57d12"
+      }
+    }
+  ],
+  "totalPrice": 50000,
+  "discountApplied": 0,
+  "status": "Pending",
+  "qrCode": "DTGO-1777199502179-69e488f8fadb2b1b6ff89405",
+  "createdAt": {
+    "$date": "2026-04-26T10:31:42.180Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-27T11:20:01.297Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69ef16f840612b096eeb6867"
+  },
+  "customerName": "nghi@gmail.com",
+  "phoneNumber": "0963258147",
+  "user": {
+    "$oid": "69e488f8fadb2b1b6ff89405"
+  },
+  "items": [
+    {
+      "serviceId": {
+        "$oid": "69e35fc907795c01e3477210"
+      },
+      "quantity": 2,
+      "priceAtBooking": 150000,
+      "_id": {
+        "$oid": "69ef16f840612b096eeb6868"
+      }
+    },
+    {
+      "serviceId": {
+        "$oid": "69e3645307795c01e3477214"
+      },
+      "quantity": 4,
+      "priceAtBooking": 20000,
+      "_id": {
+        "$oid": "69ef16f840612b096eeb6869"
+      }
+    }
+  ],
+  "totalPrice": 342000,
+  "discountApplied": 38000,
+  "status": "Completed",
+  "qrCode": "DTGO-1777276664824-69e488f8fadb2b1b6ff89405",
+  "createdAt": {
+    "$date": "2026-04-27T07:57:44.827Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-27T11:15:30.661Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69ef4540dc3a63e9c0f80022"
+  },
+  "customerName": "nghi@gmail.com",
+  "phoneNumber": "0963258147",
+  "user": {
+    "$oid": "69e488f8fadb2b1b6ff89405"
+  },
+  "items": [
+    {
+      "serviceId": {
+        "$oid": "69e35fc907795c01e3477210"
+      },
+      "quantity": 6,
+      "priceAtBooking": 150000,
+      "_id": {
+        "$oid": "69ef4540dc3a63e9c0f80023"
+      }
+    },
+    {
+      "serviceId": {
+        "$oid": "69e3644407795c01e3477212"
+      },
+      "quantity": 5,
+      "priceAtBooking": 50000,
+      "_id": {
+        "$oid": "69ef4540dc3a63e9c0f80024"
+      }
+    },
+    {
+      "serviceId": {
+        "$oid": "69e3645307795c01e3477214"
+      },
+      "quantity": 2,
+      "priceAtBooking": 20000,
+      "_id": {
+        "$oid": "69ef4540dc3a63e9c0f80025"
+      }
+    }
+  ],
+  "totalPrice": 1071000,
+  "discountApplied": 119000,
+  "status": "Completed",
+  "qrCode": "DTGO-1777288512232-69e488f8fadb2b1b6ff89405",
+  "createdAt": {
+    "$date": "2026-04-27T11:15:12.246Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-27T11:15:28.180Z"
+  },
+  "__v": 0
+}]

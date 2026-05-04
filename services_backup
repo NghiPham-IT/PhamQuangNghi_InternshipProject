@@ -1,0 +1,33 @@
+[{
+  "_id": {
+    "$oid": "69e35fc907795c01e3477210"
+  },
+  "name": "Vé tham quan Tràm Chim (Tuyến 1)",
+  "location": "Tram Chim",
+  "category": "Ticket",
+  "price": 150000,
+  "description": "Tham quan bằng tàu kéo dọc theo các trạm dừng chân.",
+  "image": "https://tramchim.net.vn/uploads/danh_nhan_2022/khu_don_khach_1.jpg"
+},
+{
+  "_id": {
+    "$oid": "69e3644407795c01e3477212"
+  },
+  "name": "Vé xuồng ba lá xuyên rừng tràm",
+  "location": "Xeo Quyt",
+  "category": "Ticket",
+  "price": 50000,
+  "description": "Len lỏi qua các con rạch nhỏ dưới tán rừng tràm nguyên sinh bằng xuồng ba lá truyền thống.",
+  "image": "https://www.luavietours.com/wp/wp-content/uploads/contents_luavietours/upload/Image/xeo-quyt.jpg"
+},
+{
+  "_id": {
+    "$oid": "69e3645307795c01e3477214"
+  },
+  "name": "Vé tham quan Khu di tích Gò Tháp",
+  "location": "Go Thap",
+  "category": "Ticket",
+  "price": 20000,
+  "description": "Khám phá các di tích khảo cổ nền văn hóa Óc Eo và các đền thờ lịch sử tâm linh.",
+  "image": "https://images.vietnamtourism.gov.vn/vn/images/2019/CNMN/30.11.Giai_phap_phat_trien_du_lich_van_hoa.jpg"
+}]

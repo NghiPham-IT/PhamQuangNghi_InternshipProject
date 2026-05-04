@@ -46,6 +46,7 @@ function Navbar() {
       <div className="flex items-center gap-6">
         {user ? (
           <>
+            {/* Nút QUẢN LÝ chung cho Admin */}
             {user.role === "admin" && !isAdminPage && (
               <Link
                 to="/admin/orders"
@@ -56,37 +57,58 @@ function Navbar() {
               </Link>
             )}
 
+            {/* Menu phụ khi đang ở trong các trang Admin */}
             {isAdminPage && (
-              <Link
-                to="/"
-                className="text-dt-green font-bold hover:underline flex items-center gap-1"
-              >
-                <span>🏠</span> Trang chủ
-              </Link>
+              <div className="flex items-center gap-4 border-r pr-4 border-gray-100">
+                <Link
+                  to="/"
+                  className="text-dt-green font-bold hover:underline flex items-center gap-1 text-sm"
+                >
+                  <span>🏠</span> Trang chủ
+                </Link>
+                <Link
+                  to="/admin/orders"
+                  className={`text-sm font-bold ${location.pathname === "/admin/orders" ? "text-dt-pink" : "text-gray-500"}`}
+                >
+                  Đơn hàng
+                </Link>
+                <Link
+                  to="/admin/reviews"
+                  className={`text-sm font-bold ${location.pathname === "/admin/reviews" ? "text-dt-pink" : "text-gray-500"}`}
+                >
+                  Đánh giá
+                </Link>
+              </div>
             )}
 
-            <Link
-              to="/cart"
-              className="relative flex items-center gap-2 text-gray-600 font-bold hover:text-dt-green transition-colors"
-            >
-              <span>🧺 Giỏ hàng</span>
-              {cartCount > 0 && (
-                <span className="absolute -top-2 -right-3 bg-dt-pink text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full border-2 border-white font-black">
-                  {cartCount}
-                </span>
-              )}
-            </Link>
+            {!isAdminPage && (
+              <>
+                <Link
+                  to="/cart"
+                  className="relative flex items-center gap-2 text-gray-600 font-bold hover:text-dt-green transition-colors"
+                >
+                  <span>🧺 Giỏ hàng</span>
+                  {cartCount > 0 && (
+                    <span className="absolute -top-2 -right-3 bg-dt-pink text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full border-2 border-white font-black">
+                      {cartCount}
+                    </span>
+                  )}
+                </Link>
 
-            <Link
-              to="/history"
-              className="text-gray-600 font-bold hover:text-dt-pink transition-colors"
-            >
-              Lịch sử vé
-            </Link>
+                <Link
+                  to="/history"
+                  className="text-gray-600 font-bold hover:text-dt-pink transition-colors"
+                >
+                  Lịch sử vé
+                </Link>
+              </>
+            )}
 
             <span className="text-gray-600 font-medium hidden md:inline">
-              Chào,{" "}
-              <span className="text-dt-green font-bold">{user.username}</span>
+              Chào, {/* SỬA LỖI: Dùng fullName thay vì username */}
+              <span className="text-dt-green font-bold">
+                {user.fullName || user.username}
+              </span>
             </span>
 
             <button

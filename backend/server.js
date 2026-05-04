@@ -4,6 +4,7 @@ const cors = require("cors");
 const serviceRoutes = require("./routes/serviceRoutes");
 const authRoutes = require("./routes/authRoutes");
 const orderRoutes = require("./routes/orderRoutes");
+const reviewRoutes = require("./routes/reviewRoutes");
 require("dotenv").config();
 
 const app = express();
@@ -11,7 +12,7 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:5173", // Địa chỉ mặc định của Vite (Frontend)
+    origin: "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   }),
@@ -20,6 +21,8 @@ app.use(express.json());
 app.use("/api/services", serviceRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/reviews", reviewRoutes);
+app.use("/uploads", express.static("uploads"));
 // Kết nối MongoDB
 mongoose
   .connect(process.env.MONGO_URI)

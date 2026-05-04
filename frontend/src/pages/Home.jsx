@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../api/axios";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async"; // Đảm bảo Nghi đã cài npm install react-helmet-async
 
 function Home() {
   const [services, setServices] = useState([]);
@@ -9,7 +10,13 @@ function Home() {
   const [location, setLocation] = useState("Tất cả");
   const [maxPrice, setMaxPrice] = useState("");
   const [sort, setSort] = useState("");
+
   useEffect(() => {
+    fetchServices();
+  }, []);
+
+  const fetchServices = () => {
+    setLoading(true);
     api
       .get("/services")
       .then((res) => {
@@ -20,7 +27,7 @@ function Home() {
         console.log("Lỗi kết nối:", err);
         setLoading(false);
       });
-  }, []);
+  };
 
   const handleSearch = async () => {
     try {
@@ -35,6 +42,15 @@ function Home() {
 
   return (
     <div className="min-h-screen bg-pink-50/30 py-12 px-4">
+      {/* Bước 2: SEO động cho Trang Chủ */}
+      <Helmet>
+        <title>Dong Thap Go | Hành trình về xứ sở Sen Hồng 🌸</title>
+        <meta
+          name="description"
+          content="Khám phá các địa điểm tham quan du lịch hấp dẫn nhất tại Đồng Tháp với giá vé ưu đãi."
+        />
+      </Helmet>
+
       {/* Header */}
       <div className="max-w-4xl mx-auto text-center mb-12">
         <h1 className="text-5xl font-black text-dt-pink tracking-tight mb-4 uppercase">
@@ -46,7 +62,7 @@ function Home() {
         </p>
       </div>
 
-      {/* search */}
+      {/* Search & Filter Section */}
       <div className="max-w-6xl mx-auto mb-16 space-y-4">
         <div className="bg-white p-6 rounded-[2.5rem] shadow-2xl shadow-pink-100/50 border border-pink-100">
           <div className="flex flex-wrap md:flex-nowrap gap-4 items-center mb-4">
@@ -118,6 +134,7 @@ function Home() {
         </div>
       </div>
 
+      {/* Services Grid */}
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {loading ? (
           [1, 2, 3].map((item) => (
@@ -135,10 +152,22 @@ function Home() {
           services.map((service) => (
             <div
               key={service._id}
-              className="bg-white rounded-3xl shadow-2xl overflow-hidden hover:translate-y-[-8px] transition-all duration-300 border border-pink-100 flex flex-col"
+              className="bg-white rounded-3xl shadow-2xl overflow-hidden hover:translate-y-[-8px] transition-all duration-300 border border-pink-100 flex flex-col group"
             >
-              <div className="h-48 bg-dt-green/10 flex items-center justify-center">
-                <span className="text-5xl">🛶</span>
+              {/* Bước 1: Lazy Loading hình ảnh */}
+              <div className="h-48 bg-dt-green/5 overflow-hidden flex items-center justify-center">
+                {service.image ? (
+                  <img
+                    src={service.image}
+                    alt={service.name}
+                    loading="lazy"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                ) : (
+                  <span className="text-5xl group-hover:scale-125 transition-transform">
+                    🛶
+                  </span>
+                )}
               </div>
 
               <div className="p-8 flex flex-col flex-grow">
@@ -146,13 +175,26 @@ function Home() {
                   <span className="bg-dt-pink/10 text-dt-pink text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">
                     {service.location}
                   </span>
+
+                  {/* Bước 3: Hiển thị Rating trung bình (Ngày 4) */}
+                  <div className="flex items-center gap-1 text-yellow-500 font-bold text-sm bg-yellow-50 px-2 py-1 rounded-lg">
+                    <span>⭐</span>
+                    <span>
+                      {service.averageRating > 0
+                        ? service.averageRating
+                        : "Mới"}
+                    </span>
+                    <span className="text-gray-400 font-normal text-[10px]">
+                      ({service.totalReviews})
+                    </span>
+                  </div>
                 </div>
 
                 <h2 className="text-2xl font-bold text-gray-800 mb-3 leading-tight min-h-[64px]">
                   {service.name}
                 </h2>
 
-                <p className="text-gray-500 text-sm mb-6 line-clamp-3 flex-grow">
+                <p className="text-gray-500 text-sm mb-6 line-clamp-3 flex-grow font-medium">
                   {service.description}
                 </p>
 
@@ -167,31 +209,25 @@ function Home() {
                   </div>
                   <Link
                     to={`/service/${service._id}`}
-                    className="bg-dt-green hover:bg-green-700 text-white font-bold py-3 px-6 rounded-2xl shadow-lg shadow-green-200 transition-colors"
+                    className="bg-dt-green hover:bg-green-700 text-white font-bold py-3 px-6 rounded-2xl shadow-lg shadow-green-200 transition-all active:scale-95"
                   >
-                    Xem chi tiết
+                    Chi tiết
                   </Link>
                 </div>
               </div>
             </div>
           ))
         ) : (
-          <div className="col-span-full text-center py-20 bg-white rounded-[3rem] shadow-inner">
-            <span className="text-6xl mb-4 block">🏜️</span>
-            <p className="text-gray-500 text-xl font-medium">
-              Bạn ơi, không tìm thấy địa điểm nào khớp với lựa chọn này rồi! 🌸
+          <div className="col-span-full text-center py-20 bg-white rounded-[3rem] shadow-inner border border-dashed border-gray-200">
+            <span className="text-6xl mb-4 block animate-bounce">🏜️</span>
+            <p className="text-gray-500 text-xl font-black italic">
+              Nghi ơi, không tìm thấy địa điểm nào khớp rồi! 🌸
             </p>
             <button
-              onClick={() => {
-                setKeyword("");
-                setLocation("Tất cả");
-                setMaxPrice("");
-                setSort("");
-                handleSearch();
-              }}
+              onClick={fetchServices}
               className="mt-4 text-dt-pink font-bold underline cursor-pointer hover:text-pink-700"
             >
-              Xem lại tất cả vé
+              Làm mới danh sách vé
             </button>
           </div>
         )}

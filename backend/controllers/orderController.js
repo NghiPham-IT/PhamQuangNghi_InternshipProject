@@ -71,7 +71,7 @@ exports.getMyOrders = async (req, res) => {
     res.status(500).json({ message: "Lỗi lấy lịch sử", error: err.message });
   }
 };
-// Lấy toàn bộ đơn hàng (Chỉ dành cho Admin)
+
 exports.getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find()
@@ -85,7 +85,7 @@ exports.getAllOrders = async (req, res) => {
       .json({ message: "Lỗi lấy danh sách đơn hàng", error: err.message });
   }
 };
-// Cập nhật trạng thái đơn hàng (Chỉ Admin)
+
 exports.updateOrderStatus = async (req, res) => {
   try {
     const { status } = req.body;
